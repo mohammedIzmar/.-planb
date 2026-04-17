@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan B Restaurant - Fine Dining Experience</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #D4A574;
+            --dark: #1a2a3a;
+            --light: #f5f1e8;
+            --accent: #c9302c;
+            --text: #2c3e50;
+            --border: #e0d5c7;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--dark);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-brand {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Hamburger Button */
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            gap: 5px;
+            cursor: pointer;
+            padding: 4px;
+            background: none;
+            border: none;
+            z-index: 200;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-toggle.open span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+
+        .nav-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .nav-toggle.open span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+
+        /* Mobile Nav Right (cart + hamburger) */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        /* Mobile Dropdown Menu */
+        @media (max-width: 768px) {
+            .nav-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                gap: 0;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--dark);
+                box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+                padding: 0.5rem 0 1rem;
+                z-index: 150;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links a {
+                padding: 0.9rem 2rem;
+                font-size: 1rem;
+                border-bottom: 1px solid rgba(255,255,255,0.07);
+                display: flex;
+                align-items: center;
+                gap: 0.6rem;
+            }
+
+            .nav-links a:last-of-type {
+                border-bottom: none;
+            }
+
+            .nav-links a:hover {
+                background: rgba(212, 165, 116, 0.1);
+            }
+
+            .nav-links .cart-icon {
+                display: none;
+            }
+        }
+
+        /* Hero Section */
+        .hero {
+          background: linear-gradient(135deg, rgba(26, 42, 58, 0.85) 0%, rgba(44, 73, 99, 0.85) 100%), url('https://i.imgur.com/kIkQddL.jpeg') center/cover no-repeat;
+            color: var(--light);
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            opacity: 0.1;
+            border-radius: 50%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Info Section */
+        .info-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .info-item {
+            text-align: center;
+            padding: 1.5rem;
+            border-left: 3px solid var(--primary);
+        }
+
+        .info-item h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .info-item p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            margin: 3rem 0;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            color: var(--dark);
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        /* Menu Image */
+        .menu-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--primary) 0%, #b8935f 100%);
+            display: block;
+        }
+
+        .menu-card:hover .menu-image {
+            transform: scale(1.05);
+        }
+
+        .menu-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #b8935f 100%);
+            padding: 1.5rem;
+            color: white;
+        }
+
+        .menu-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .menu-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .item-description {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .stock-info {
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            background: #f9f5f0;
+            border-radius: 4px;
+            color: #d97706;
+        }
+
+        .stock-info.available {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+
+        .customizer {
+            margin-bottom: 1rem;
+        }
+
+        .customizer label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text);
+        }
+
+        .protein-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            cursor: pointer;
+            width: 16px;
+            height: 16px;
+            accent-color: var(--primary);
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: normal;
+        }
+
+        .price-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 0.25rem;
+        }
+
+        .quantity-control button {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: var(--light);
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--text);
+            transition: background 0.2s;
+        }
+
+        .quantity-control button:hover {
+            background: var(--border);
+        }
+
+        .quantity-control input {
+            width: 40px;
+            text-align: center;
+            border: none;
+            background: white;
+            font-weight: bold;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .add-to-cart-btn:hover {
+            background: #b8935f;
+            transform: scale(1.02);
+        }
+
+        .add-to-cart-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 3rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .review-form {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .star {
+            font-size: 2rem;
+            cursor: pointer;
+            color: #ddd;
+            transition: color 0.2s;
+        }
+
+        .star.active {
+            color: #ffc107;
+        }
+
+        .submit-review-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .submit-review-btn:hover {
+            background: #a02422;
+        }
+
+        .submit-review-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .reviews-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .review-item {
+            padding: 1.5rem;
+            background: var(--light);
+            border-radius: 4px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .review-name {
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        .review-rating {
+            color: #ffc107;
+        }
+
+        .review-text {
+            color: #666;
+            margin-top: 0.5rem;
+        }
+
+        .review-date {
+            font-size: 0.85rem;
+            color: #999;
+            margin-top: 0.5rem;
+        }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            float: right;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-close:hover {
+            color: var(--dark);
+        }
+
+        /* Cart Modal */
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cart-item-info {
+            flex-grow: 1;
+        }
+
+        .cart-item-name {
+            font-weight: bold;
+            margin-bottom: 0.3rem;
+        }
+
+        .cart-item-customizations {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .cart-item-price {
+            font-weight: bold;
+            color: var(--primary);
+            margin-right: 1rem;
+        }
+
+        .cart-item-remove {
+            cursor: pointer;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .cart-summary {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 2px solid var(--border);
+        }
+
+        .summary-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.8rem;
+        }
+
+        .summary-total {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background: #a02422;
+        }
+
+        .checkout-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Payment */
+        .payment-method {
+            margin: 1.5rem 0;
+        }
+
+        .payment-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .payment-option input[type="radio"] {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--light);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .protein-options {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        /* Success Message */
+        .success-message {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #16a34a;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            animation: slideInRight 0.3s;
+            z-index: 2000;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(400px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-brand">
+            🍽️ Plan B
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a onclick="scrollToSection('menu'); closeNav()">🍴 Menu</a>
+            <a onclick="scrollToSection('reviews'); closeNav()">⭐ Reviews</a>
+            <a onclick="scrollToSection('contact'); closeNav()">📍 Contact</a>
+        </div>
+        <div class="nav-right">
+            <div class="cart-icon" onclick="openCart()">
+                🛒
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+            <button class="nav-toggle" id="navToggle" onclick="toggleNav()" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    <script>
+        function toggleNav() {
+            const links = document.getElementById('navLinks');
+            const toggle = document.getElementById('navToggle');
+            links.classList.toggle('open');
+            toggle.classList.toggle('open');
+        }
+        function closeNav() {
+            document.getElementById('navLinks').classList.remove('open');
+            document.getElementById('navToggle').classList.remove('open');
+        }
+    </script>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Plan B Restaurant</h1>
+            <p>Experience Culinary Excellence with Sri Lankan Flavors</p>
+            <p style="font-size: 0.95rem; opacity: 0.8;">Evening 6:00 PM - Midnight</p>
+        </div>
+    </section>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Info Section -->
+        <section class="info-section" id="contact">
+            <div class="info-item">
+                <h3>📍 Location</h3>
+                <p>1188 Dalupitiya Rd, Wattala 11300</p>
+            </div>
+            <div class="info-item">
+                <h3>☎️ Contact</h3>
+                <p>074 072 3388</p>
+            </div>
+            <div class="info-item">
+                <h3>⏰ Hours</h3>
+                <p>6:00 PM - 12:00 AM</p>
+            </div>
+        </section>
+
+        <!-- Menu Section -->
+        <section class="menu-section" id="menu">
+            <h2 class="section-title">Our Menu</h2>
+            <div class="menu-grid" id="menuGrid"></div>
+        </section>
+
+        <!-- Reviews Section -->
+        <section class="reviews-section" id="reviews">
+            <h2 class="section-title">Customer Reviews & Ratings</h2>
+            
+            <div class="review-form">
+                <h3 style="margin-bottom: 1rem;">Leave a Review</h3>
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="reviewName" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label>Your Rating</label>
+                    <div class="star-rating" id="starRating">
+                        <span class="star" onclick="setRating(1)">★</span>
+                        <span class="star" onclick="setRating(2)">★</span>
+                        <span class="star" onclick="setRating(3)">★</span>
+                        <span class="star" onclick="setRating(4)">★</span>
+                        <span class="star" onclick="setRating(5)">★</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Your Review</label>
+                    <textarea id="reviewText" placeholder="Share your experience..."></textarea>
+                </div>
+                <button class="submit-review-btn" id="submitReviewBtn" onclick="submitReview()">Submit Review</button>
+            </div>
+
+            <div class="reviews-list" id="reviewsList"></div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Plan B Restaurant. All rights reserved.</p>
+        <p>Experience Sri Lankan cuisine at its finest.</p>
+    </footer>
+
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeCart()">✕</span>
+            <h2>Your Cart</h2>
+            <div id="cartItems"></div>
+            <div class="cart-summary">
+                <div class="summary-line">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">Rs. 0.00</span>
+                </div>
+                <div class="summary-line">
+                    <span>Delivery:</span>
+                    <span id="delivery">Free</span>
+                </div>
+                <div class="summary-line summary-total">
+                    <span>Total:</span>
+                    <span id="total">Rs. 0.00</span>
+                </div>
+            </div>
+            <button class="checkout-btn" onclick="proceedToCheckout()" id="checkoutBtn" disabled>Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeCheckout()">✕</span>
+            <h2>Checkout</h2>
+            
+            <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" id="fullName" placeholder="Enter your full name">
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number *</label>
+                <input type="tel" id="phone" placeholder="Enter your phone number">
+            </div>
+
+            <div class="form-group">
+                <label>Delivery Address *</label>
+                <textarea id="address" placeholder="Enter your delivery address"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Special Instructions</label>
+                <textarea id="instructions" placeholder="Any special requests or dietary requirements?"></textarea>
+            </div>
+
+            <div class="payment-method">
+                <label style="font-weight: bold; display: block; margin-bottom: 1rem;">Payment Method *</label>
+                
+                <div class="payment-option">
+                    <input type="radio" id="cashPayment" name="payment" value="cash" checked>
+                    <label for="cashPayment" style="margin: 0; font-weight: normal;">Cash on Delivery</label>
+                </div>
+
+                <div class="payment-option">
+                    <input type="radio" id="bankPayment" name="payment" value="bank">
+                    <label for="bankPayment" style="margin: 0; font-weight: normal;">Bank Transfer</label>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border);">
+                <strong>Order Summary:</strong>
+                <div id="checkoutSummary" style="margin-top: 1rem;"></div>
+            </div>
+
+            <button class="checkout-btn" id="placeOrderBtn" onclick="placeOrder()">Place Order</button>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const SERVER_URL = 'http://43.252.15.202:3000';
+
+        // ============================================================
+        // MENU ITEMS - HOW TO CHANGE PRICES:
+        //
+        // For items WITHOUT options (e.g. Parata, Dolphin Kottu):
+        //   Change "basePrice" to the price you want.
+        //   Example: basePrice: 60  → shows Rs. 60
+        //
+        // For items WITH options (e.g. Kottu, Fried Rice):
+        //   Each option in "proteins" has its OWN price.
+        //   Change the "price" inside each protein object.
+        //   The customer selects ONE option and that price is used.
+        //   Example:  { name: 'Egg', price: 750 }
+        //             { name: 'Chicken', price: 950 }
+        //
+        //   basePrice is NOT used for items with proteins —
+        //   the selected protein's price IS the total price.
+        // ============================================================
+        const menuItems = [
+            { 
+                id: 1, 
+                name: 'Parata', 
+                description: 'Crispy, layered traditional flatbread. Perfect as a side or main dish.', 
+                category: 'Breads', 
+                basePrice: 50,   // ← CHANGE THIS to update Parata price
+                proteins: [], 
+                stock: 50, 
+                image: 'https://i.imgur.com/UepXwzA.jpeg',
+                reviews: [] 
+            },
+            { 
+                id: 2, 
+                name: 'Kottu', 
+                description: 'Chopped flatbread stir-fried with your choice of type. Price changes by type.', 
+                category: 'Main Courses', 
+                basePrice: 0,  // not used — price comes from selected protein below
+                proteins: [
+                    // ↓ CHANGE "price" values here to update each Kottu type price
+                    { name: 'Egg Kottu',     price: 750 },
+                    { name: 'Cheese Kottu',  price: 850 },
+                    { name: 'Chicken Kottu', price: 950 },
+                    { name: 'Beef Kottu',    price: 1050 }
+                ], 
+                stock: 30,
+                image: 'https://i.imgur.com/JoCWTZ2.jpeg',
+                reviews: [] 
+            },
+            { 
+                id: 3, 
+                name: 'Dolphin Kottu', 
+                description: 'Delicious kottu roti with grilled fish pieces, perfectly spiced and flavored.', 
+                category: 'Seafood', 
+                basePrice: 1000,  // ← CHANGE THIS to update Dolphin Kottu price
+                proteins: [], 
+                stock: 25,
+                image: 'https://i.imgur.com/wH6YJJb.jpeg',
+                reviews: [] 
+            },
+            { 
+                id: 4, 
+                name: 'Fried Rice', 
+                description: 'Fragrant basmati rice stir-fried with your choice of proteins and fresh vegetables.', 
+                category: 'Rice Dishes', 
+                basePrice: 0,  // not used — price comes from selected protein below
+                proteins: [
+                    // ↓ CHANGE "price" values here to update each Fried Rice type price
+                    { name: 'Chicken', price: 800 },
+                    { name: 'Egg',     price: 700 },
+                    { name: 'Beef',    price: 900 }
+                ], 
+                stock: 40,
+                image: 'https://i.imgur.com/Ot2UbMq.jpeg',
+                reviews: [] 
+            }
+        ];
+
+        let cart = [];
+        let currentRating = 0;
+        let allReviews = [];
+
+        // Initialize
+        function init() {
+            loadMenuFromServer();
+            loadReviewsFromServer();
+            loadCart();
+        }
+
+        // Load Menu from Server
+        function loadMenuFromServer() {
+            fetch(`${SERVER_URL}/api/menu`)
+                .then(r => r.json())
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        data.forEach((serverItem) => {
+                            const local = menuItems.find(m => m.id === serverItem.id);
+                            if (!local) return;
+
+                            if (local.proteins.length === 0) {
+                                // Simple item — sync basePrice
+                                local.basePrice = serverItem.basePrice || local.basePrice;
+                            } else if (Array.isArray(serverItem.proteins) && serverItem.proteins.length > 0 &&
+                                       typeof serverItem.proteins[0] === 'object') {
+                                // Options item — sync per-type prices from server
+                                serverItem.proteins.forEach((sp, idx) => {
+                                    if (local.proteins[idx]) local.proteins[idx].price = sp.price;
+                                });
+                            }
+                            local.stock = serverItem.stock || local.stock;
+                        });
+                    }
+                    renderMenu();
+                })
+                .catch(err => {
+                    console.log('Server not available, using local menu');
+                    renderMenu();
+                });
+        }
+
+        // Load Reviews from Server
+        function loadReviewsFromServer() {
+            fetch(`${SERVER_URL}/api/reviews`)
+                .then(r => r.json())
+                .then(data => {
+                    allReviews = Array.isArray(data) ? data : [];
+                    renderReviews();
+                })
+                .catch(err => {
+                    console.log('Reviews unavailable');
+                    renderReviews();
+                });
+        }
+
+        // Render Menu
+        function renderMenu() {
+            const menuGrid = document.getElementById('menuGrid');
+            menuGrid.innerHTML = menuItems.map(item => `
+                <div class="menu-card">
+                    <img src="${item.image}" alt="${item.name}" class="menu-image" onerror="this.style.background='linear-gradient(135deg, var(--primary) 0%, #b8935f 100%)'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.textContent='📷';">
+                    <div class="menu-header">
+                        <h3>${item.name}</h3>
+                        <p>${item.category}</p>
+                    </div>
+                    <div class="menu-body">
+                        <p class="item-description">${item.description}</p>
+                        
+                        <div class="stock-info ${item.stock > 10 ? 'available' : ''}">
+                            ${item.stock > 0 ? '✓ Available' : '✗ Out of Stock'}
+                        </div>
+
+                        ${item.proteins.length > 0 ? `
+                            <div class="customizer">
+                                <label>Choose Type:</label>
+                                <div class="protein-options">
+                                    ${item.proteins.map((protein, idx) => `
+                                        <div class="checkbox-group">
+                                            <input type="radio" 
+                                                id="protein_${item.id}_${idx}" 
+                                                name="protein_${item.id}" 
+                                                value="${protein.name}" 
+                                                data-price="${protein.price}"
+                                                onchange="updatePrice(${item.id})"
+                                                ${idx === 0 ? 'checked' : ''}>
+                                            <label for="protein_${item.id}_${idx}">
+                                                ${protein.name} 
+                                                <span style="color: var(--primary); font-weight: bold;">Rs. ${protein.price}</span>
+                                            </label>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        <div class="price-section">
+                            <div class="price" id="price_${item.id}">
+                                Rs. ${item.proteins.length > 0 ? item.proteins[0].price : (item.basePrice > 0 ? item.basePrice : 'TBD')}
+                            </div>
+                            <div class="quantity-control">
+                                <button onclick="decreaseQty(${item.id})">−</button>
+                                <input type="number" id="qty_${item.id}" value="1" min="1" readonly>
+                                <button onclick="increaseQty(${item.id})">+</button>
+                            </div>
+                        </div>
+
+                        <button class="add-to-cart-btn" onclick="addToCart(${item.id})" ${item.stock === 0 ? 'disabled' : ''}>
+                            ${item.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Update price display when a radio option is selected
+        function updatePrice(itemId) {
+            const selected = document.querySelector(`input[name="protein_${itemId}"]:checked`);
+            if (selected) {
+                const price = selected.dataset.price;
+                document.getElementById(`price_${itemId}`).textContent = `Rs. ${price}`;
+            }
+        }
+
+        // Quantity Controls
+        function increaseQty(itemId) {
+            const input = document.getElementById(`qty_${itemId}`);
+            input.value = parseInt(input.value) + 1;
+        }
+
+        function decreaseQty(itemId) {
+            const input = document.getElementById(`qty_${itemId}`);
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+            }
+        }
+
+        // Add to Cart
+        function addToCart(itemId) {
+            const item = menuItems.find(i => i.id === itemId);
+            const qty = parseInt(document.getElementById(`qty_${itemId}`).value);
+
+            let selectedProtein = null;
+            let finalPrice = item.basePrice;
+
+            if (item.proteins.length > 0) {
+                const selectedRadio = document.querySelector(`input[name="protein_${itemId}"]:checked`);
+                if (!selectedRadio) {
+                    alert('Please select a type');
+                    return;
+                }
+                selectedProtein = selectedRadio.value;
+                finalPrice = parseInt(selectedRadio.dataset.price);
+            }
+
+            const cartItem = {
+                id: itemId,
+                name: item.name,
+                basePrice: finalPrice,
+                selectedProteins: selectedProtein ? [selectedProtein] : [],
+                quantity: qty,
+                totalPrice: finalPrice * qty
+            };
+
+            cart.push(cartItem);
+            saveCart();
+            updateCartCount();
+            showSuccessMessage('Added to cart!');
+            document.getElementById(`qty_${itemId}`).value = 1;
+
+            // Reset to first radio option
+            if (item.proteins.length > 0) {
+                const firstRadio = document.querySelector(`input[name="protein_${itemId}"]`);
+                if (firstRadio) {
+                    firstRadio.checked = true;
+                    updatePrice(itemId);
+                }
+            }
+        }
+
+        // Cart Functions
+        function saveCart() {
+            localStorage.setItem('planBCart', JSON.stringify(cart));
+        }
+
+        function loadCart() {
+            cart = JSON.parse(localStorage.getItem('planBCart')) || [];
+            updateCartCount();
+        }
+
+        function updateCartCount() {
+            document.getElementById('cartCount').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+        }
+
+        function openCart() {
+            renderCartModal();
+            document.getElementById('cartModal').classList.add('active');
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').classList.remove('active');
+        }
+
+        function renderCartModal() {
+            const cartItems = document.getElementById('cartItems');
+            const subtotal = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; color: #999; padding: 2rem;">Your cart is empty</p>';
+                document.getElementById('checkoutBtn').disabled = true;
+                document.getElementById('subtotal').textContent = 'Rs. 0.00';
+                document.getElementById('total').textContent = 'Rs. 0.00';
+                return;
+            }
+
+            cartItems.innerHTML = cart.map((item, idx) => `
+                <div class="cart-item">
+                    <div class="cart-item-info">
+                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-customizations">
+                            ${item.selectedProteins.length > 0 ? item.selectedProteins.join(', ') : 'No add-ons'}
+                        </div>
+                        <div style="font-size: 0.85rem; color: #999;">Qty: ${item.quantity}</div>
+                    </div>
+                    <div class="cart-item-price">Rs. ${item.totalPrice.toFixed(2)}</div>
+                    <div class="cart-item-remove" onclick="removeFromCart(${idx})">Remove</div>
+                </div>
+            `).join('');
+
+            document.getElementById('subtotal').textContent = `Rs. ${subtotal.toFixed(2)}`;
+            document.getElementById('total').textContent = `Rs. ${subtotal.toFixed(2)}`;
+            document.getElementById('checkoutBtn').disabled = false;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            saveCart();
+            updateCartCount();
+            renderCartModal();
+        }
+
+        // Checkout
+        function proceedToCheckout() {
+            document.getElementById('cartModal').classList.remove('active');
+            renderCheckoutModal();
+            document.getElementById('checkoutModal').classList.add('active');
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutModal').classList.remove('active');
+        }
+
+        function renderCheckoutModal() {
+            const subtotal = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+            const checkoutSummary = document.getElementById('checkoutSummary');
+            
+            checkoutSummary.innerHTML = `
+                <div style="margin-bottom: 1rem;">
+                    ${cart.map(item => `
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>${item.name} x${item.quantity}</span>
+                            <span>Rs. ${item.totalPrice.toFixed(2)}</span>
+                        </div>
+                    `).join('')}
+                </div>
+                <div style="display: flex; justify-content: space-between; font-weight: bold; padding-top: 1rem; border-top: 1px solid var(--border);">
+                    <span>Total:</span>
+                    <span style="color: var(--primary);">Rs. ${subtotal.toFixed(2)}</span>
+                </div>
+            `;
+        }
+
+        function placeOrder() {
+            const fullName = document.getElementById('fullName').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const instructions = document.getElementById('instructions').value;
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+
+            if (!fullName || !phone || !address) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            const subtotal = cart.reduce((sum, item) => sum + item.totalPrice, 0);
+            const order = {
+                customer: {
+                    name: fullName,
+                    phone: phone,
+                    address: address,
+                    instructions: instructions
+                },
+                items: cart,
+                subtotal: subtotal,
+                paymentMethod: paymentMethod
+            };
+
+            // Disable button
+            const btn = document.getElementById('placeOrderBtn');
+            btn.disabled = true;
+            btn.classList.add('loading');
+            btn.textContent = 'Placing Order...';
+
+            // Send to server
+            fetch(`${SERVER_URL}/api/orders`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(order)
+            })
+            .then(r => r.json())
+            .then(data => {
+                alert(`Order Placed Successfully!\n\nOrder ID: ${data.orderId}\n\nWe will contact you to confirm delivery.`);
+                
+                // Clear cart
+                cart = [];
+                saveCart();
+                updateCartCount();
+
+                // Reset form
+                document.getElementById('fullName').value = '';
+                document.getElementById('phone').value = '';
+                document.getElementById('address').value = '';
+                document.getElementById('instructions').value = '';
+
+                // Close modal
+                closeCheckout();
+                showSuccessMessage('Order placed successfully!');
+            })
+            .catch(err => {
+                alert('Error placing order: ' + err.message);
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.classList.remove('loading');
+                btn.textContent = 'Place Order';
+            });
+        }
+
+        // Reviews
+        function setRating(rating) {
+            currentRating = rating;
+            document.querySelectorAll('#starRating .star').forEach((star, idx) => {
+                if (idx < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function submitReview() {
+            const name = document.getElementById('reviewName').value;
+            const text = document.getElementById('reviewText').value;
+
+            if (!name || !text || currentRating === 0) {
+                alert('Please fill in all fields and select a rating');
+                return;
+            }
+
+            const btn = document.getElementById('submitReviewBtn');
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+
+            fetch(`${SERVER_URL}/api/reviews`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: name,
+                    rating: currentRating,
+                    text: text
+                })
+            })
+            .then(r => r.json())
+            .then(data => {
+                document.getElementById('reviewName').value = '';
+                document.getElementById('reviewText').value = '';
+                currentRating = 0;
+                document.querySelectorAll('#starRating .star').forEach(star => star.classList.remove('active'));
+                loadReviewsFromServer();
+                showSuccessMessage('Review submitted!');
+            })
+            .catch(err => {
+                alert('Error submitting review');
+            })
+            .finally(() => {
+                btn.disabled = false;
+                btn.textContent = 'Submit Review';
+            });
+        }
+
+        function renderReviews() {
+            const reviewsList = document.getElementById('reviewsList');
+            if (allReviews.length === 0) {
+                reviewsList.innerHTML = '<p style="text-align: center; color: #999;">No reviews yet. Be the first to review!</p>';
+                return;
+            }
+
+            reviewsList.innerHTML = allReviews.map(review => `
+                <div class="review-item">
+                    <div class="review-header">
+                        <span class="review-name">${review.name}</span>
+                        <span class="review-rating">${'★'.repeat(review.rating)}${'☆'.repeat(5-review.rating)}</span>
+                    </div>
+                    <div class="review-text">${review.text}</div>
+                    <div class="review-date">${review.date}</div>
+                </div>
+            `).join('');
+        }
+
+        // Helper Functions
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function showSuccessMessage(text) {
+            const msg = document.createElement('div');
+            msg.className = 'success-message';
+            msg.textContent = text;
+            document.body.appendChild(msg);
+            setTimeout(() => msg.remove(), 3000);
+        }
+
+        // Initialize on load
+        window.addEventListener('load', init);
+    </script>
+</body>
+</html>
